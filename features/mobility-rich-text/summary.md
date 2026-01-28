@@ -75,6 +75,7 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 - Implementation tasks defined
 - Decision: Plugin architecture (not custom backend)
 - Decision: Use `ActionText::Content` (not `ActionText::RichText`)
+- Decision: TomDoc for code documentation (generated via rdoc)
 
 ### In Progress
 - Phase 1 implementation planning
@@ -107,6 +108,11 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 **Rationale:** Provides stable interface, allows future enhancements
 **Impact:** Clear API boundary, easier testing
 
+### Decision 4: TomDoc for Code Documentation
+**Decision:** Document all Ruby code using TomDoc markup format
+**Rationale:** Human-readable in plain text, machine-parseable by RDoc, follows Ruby community conventions
+**Impact:** Consistent, high-quality API documentation generated via rdoc gem
+
 ---
 
 ## Success Metrics
@@ -116,11 +122,14 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 - Works with KeyValue, Table, and JSON backends
 - Attachment support functional
 - No performance regressions
+- All public API documented with TomDoc
+- RDoc generates complete documentation
 
 **Developer Experience:**
 - Simple configuration (`rich_text: true`)
 - Intuitive API matching ActionText patterns
 - Clear documentation and examples
+- Generated API documentation available
 
 ---
 

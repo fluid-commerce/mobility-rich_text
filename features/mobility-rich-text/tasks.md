@@ -67,7 +67,24 @@
   - [ ] Add `==` comparison method
   - [ ] Add `delegate_missing_to :@content`
 
-#### 1.1.3: Verify Tests Pass
+#### 1.1.3: Document Wrapper Class (TomDoc)
+
+- [ ] Add TomDoc class-level documentation
+  - [ ] Description of what Wrapper does
+  - [ ] Usage examples
+- [ ] Document all public methods with TomDoc
+  - [ ] `initialize` - parameters, examples, returns
+  - [ ] `to_s` - description, returns
+  - [ ] `to_html` - description, returns
+  - [ ] `to_plain_text` - description, returns
+  - [ ] `blank?` - description, returns
+  - [ ] `present?` - description, returns
+  - [ ] `to_action_text_content` - description, returns
+  - [ ] `==` - parameters, examples, returns
+- [ ] Document public attributes (`html`, `content`)
+- [ ] Verify `bundle exec rdoc lib/mobility/rich_text/wrapper.rb` generates correctly
+
+#### 1.1.4: Verify Tests Pass
 
 - [ ] Run `bundle exec rake test TEST=test/mobility/rich_text/wrapper_test.rb`
 - [ ] All tests GREEN
@@ -80,6 +97,8 @@
 - [ ] All tests passing
 - [ ] Handles nil and empty string gracefully
 - [ ] Delegates unknown methods to ActionText::Content
+- [ ] All public methods documented with TomDoc
+- [ ] RDoc generates without errors
 
 ---
 
@@ -106,6 +125,8 @@
 
 - [ ] All Phase 1 tasks completed
 - [ ] All wrapper tests passing
+- [ ] Wrapper class documented with TomDoc
+- [ ] RDoc generates successfully for wrapper
 - [ ] Code review approved (if applicable)
 - [ ] Documentation updated (this file)
 - [ ] No linter errors
@@ -156,12 +177,25 @@
   - [ ] Implement `write` method override
   - [ ] Implement `normalize_value` private method
 
-#### 2.1.3: Register Plugin
+#### 2.1.3: Document Plugin Module (TomDoc)
+
+- [ ] Add TomDoc module-level documentation for `Mobility::Plugins::RichText`
+  - [ ] Description of plugin purpose
+  - [ ] Configuration examples
+- [ ] Document `BackendMethods` module
+- [ ] Document public methods with TomDoc
+  - [ ] `read` - parameters, returns
+  - [ ] `write` - parameters, returns
+- [ ] Document internal methods with `Internal:` prefix
+  - [ ] `normalize_value` - parameters, returns
+- [ ] Verify `bundle exec rdoc lib/mobility/rich_text/plugins/` generates correctly
+
+#### 2.1.4: Register Plugin
 
 - [ ] Add `Mobility::Plugins.register_plugin(:rich_text, RichText)` to entry point
 - [ ] Verify plugin appears in Mobility's registry
 
-#### 2.1.4: Verify Tests Pass
+#### 2.1.5: Verify Tests Pass
 
 - [ ] Run `bundle exec rake test TEST=test/mobility/rich_text/plugins/rich_text_test.rb`
 - [ ] All tests GREEN
@@ -172,6 +206,9 @@
 - [ ] Write interception works correctly
 - [ ] Bypass mechanism works
 - [ ] All tests passing
+- [ ] All public methods documented with TomDoc
+- [ ] Internal methods marked with `Internal:` prefix
+- [ ] RDoc generates without errors
 
 ---
 
@@ -196,6 +233,8 @@
 - [ ] All Phase 2 tasks completed
 - [ ] All plugin tests passing
 - [ ] Plugin integrates with Mobility correctly
+- [ ] All code documented with TomDoc
+- [ ] RDoc generates successfully
 - [ ] Code review approved
 - [ ] Documentation updated
 
@@ -313,7 +352,9 @@
 - [ ] All 4 phases completed
 - [ ] All tests passing
 - [ ] Attachment support verified
-- [ ] Documentation complete
+- [ ] All public API documented with TomDoc
+- [ ] RDoc documentation generates successfully
+- [ ] README documentation complete
 - [ ] Ready for release
 
 **Phase 4 Status:** Planned → Complete (update when done)
@@ -326,11 +367,15 @@
 - [ ] All tasks checked off
 - [ ] All tests written first (TDD)
 - [ ] All tests passing
+- [ ] All code documented with TomDoc
+- [ ] RDoc generates without errors
 - [ ] No linter errors
 
 **Overall Feature:**
 - [ ] All 4 phases complete
 - [ ] All acceptance criteria from spec.md met
+- [ ] All public API documented with TomDoc
+- [ ] RDoc documentation generates successfully
 - [ ] README documentation complete
 - [ ] Gem ready for release
 
@@ -350,6 +395,18 @@ bundle exec rake rubocop
 
 # Run tests with verbose output
 bundle exec rake test TESTOPTS="--verbose"
+
+# Generate documentation (TomDoc via RDoc)
+bundle exec rdoc lib/
+
+# Generate documentation with specific format
+bundle exec rdoc --format=darkfish lib/
+
+# Generate documentation for specific file
+bundle exec rdoc lib/mobility/rich_text/wrapper.rb
+
+# View generated documentation
+open doc/index.html
 ```
 
 ---

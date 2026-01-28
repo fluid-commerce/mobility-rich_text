@@ -14,6 +14,7 @@
 3. [Key Design Decisions](#key-design-decisions)
 4. [Implementation Approach](#implementation-approach)
 5. [Data Flow](#data-flow)
+6. [Documentation Standards](#documentation-standards)
 
 ---
 
@@ -350,6 +351,145 @@ Test scenarios:
 
 ---
 
+## Documentation Standards
+
+### TomDoc Format
+
+All Ruby code must be documented using [TomDoc](https://github.com/mojombo/tomdoc) markup format. TomDoc provides human-readable documentation that can also be parsed by tools like RDoc.
+
+### Documentation Generation
+
+Documentation is generated using the `rdoc` gem, which has built-in TomDoc support via `RDoc::TomDoc`.
+
+```bash
+# Generate documentation
+bundle exec rdoc lib/
+
+# Generate with specific format
+bundle exec rdoc --format=darkfish lib/
+```
+
+### TomDoc Structure
+
+Each documented element follows this structure:
+
+1. **Description** - Plain sentences explaining what the method does
+2. **Arguments** - Each parameter with name, dash, and explanation
+3. **Examples** - Code examples showing usage (optional)
+4. **Returns** - What the method returns
+5. **Raises** - Exceptions that may be raised (optional)
+
+### Visibility Markers
+
+Use these prefixes to indicate method visibility:
+
+- `Public:` - Part of the public API, follows semantic versioning
+- `Internal:` - For internal use only, may change without notice
+- `Deprecated:` - Will be removed in future major version
+
+### Example: Class Documentation
+
+```ruby
+# Public: Wraps an HTML string with ActionText::Content functionality.
+#
+# This class provides a consistent interface for rich text content,
+# delegating most methods to the underlying ActionText::Content while
+# adding Mobility-specific functionality.
+#
+# Examples
+#
+#   wrapper = Mobility::RichText::Wrapper.new("<p>Hello</p>")
+#   wrapper.to_plain_text
+#   # => "Hello"
+#
+class Wrapper
+  # ...
+end
+```
+
+### Example: Method Documentation
+
+```ruby
+# Public: Creates a new Wrapper instance.
+#
+# html - The String HTML content to wrap. Will be converted to String
+#        if another type is provided. Nil values become empty strings.
+#
+# Examples
+#
+#   Wrapper.new("<p>Hello</p>")
+#   # => #<Mobility::RichText::Wrapper ...>
+#
+#   Wrapper.new(nil)
+#   # => #<Mobility::RichText::Wrapper @html="">
+#
+# Returns a new Wrapper instance.
+def initialize(html)
+  @html = html.to_s
+  @content = ActionText::Content.new(@html)
+end
+```
+
+### Example: Method with Multiple Arguments
+
+```ruby
+# Public: Compares this wrapper with another object for equality.
+#
+# other - The Object to compare against. Can be:
+#         Wrapper - compares HTML content
+#         ActionText::Content - compares HTML content
+#         String - compares against HTML string
+#
+# Examples
+#
+#   wrapper = Wrapper.new("<p>Hi</p>")
+#   wrapper == Wrapper.new("<p>Hi</p>")
+#   # => true
+#
+#   wrapper == "<p>Hi</p>"
+#   # => true
+#
+# Returns true if the objects are considered equal, false otherwise.
+def ==(other)
+  # ...
+end
+```
+
+### Example: Internal Method
+
+```ruby
+# Internal: Normalizes various input types to an HTML string.
+#
+# value - The value to normalize. Accepts String, Wrapper,
+#         ActionText::Content, ActionText::RichText, or nil.
+#
+# Returns the String HTML representation, or nil if value was nil.
+def normalize_value(value)
+  # ...
+end
+```
+
+### Example: Attribute Documentation
+
+```ruby
+# Public: Returns the String HTML content.
+attr_reader :html
+
+# Public: Returns the underlying ActionText::Content instance.
+attr_reader :content
+```
+
+### Documentation Checklist
+
+For each class/module:
+- [ ] Class-level TomDoc with description and examples
+- [ ] All public methods documented
+- [ ] All public attributes documented
+- [ ] Internal methods marked with `Internal:` prefix
+- [ ] Examples provided for non-obvious usage
+
+---
+
 ## What NOT To Do
 
 **Don't create a custom backend**
@@ -397,6 +537,9 @@ Test scenarios:
 
 - [Mobility Plugin Guide](https://github.com/shioyama/mobility/wiki/Plugins)
 - [ActionText::Content source](https://github.com/rails/rails/blob/main/actiontext/lib/action_text/content.rb)
+- [TomDoc Specification](https://github.com/mojombo/tomdoc)
+- [RDoc TomDoc Parser](https://docs.ruby-lang.org/en/master/RDoc/TomDoc.html)
+- [Tom Preston-Werner's TomDoc Introduction](https://tom.preston-werner.com/2010/05/11/tomdoc-reasonable-ruby-documentation.html)
 
 ---
 

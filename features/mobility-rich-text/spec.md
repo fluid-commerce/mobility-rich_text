@@ -132,6 +132,20 @@ Users can bypass rich text wrapping to get raw string value.
 - AC-RT-006.2: Bypass works for read operations only
 - AC-RT-006.3: Does not affect write operations
 
+### FR-RT-007: Code Documentation
+
+**Priority:** P1 (High)
+
+All Ruby code must be documented using TomDoc markup format, with documentation generated via the rdoc gem.
+
+**Acceptance Criteria:**
+- AC-RT-007.1: All public methods documented with TomDoc format
+- AC-RT-007.2: All public classes documented with TomDoc format
+- AC-RT-007.3: Internal methods marked with `Internal:` visibility prefix
+- AC-RT-007.4: Deprecated methods marked with `Deprecated:` visibility prefix
+- AC-RT-007.5: Documentation generates successfully via `rdoc` command
+- AC-RT-007.6: Generated documentation is readable and complete
+
 ---
 
 ## API Specification
@@ -277,6 +291,8 @@ The mobility-rich_text gem is considered **complete** when:
 - [ ] Hstore backend tested
 - [ ] Bypass mechanism implemented
 - [ ] Performance benchmarks acceptable
+- [ ] All public API documented with TomDoc
+- [ ] RDoc generates successfully
 
 #### Nice to Have (P2) - Future Enhancement
 
@@ -301,6 +317,8 @@ The mobility-rich_text gem is considered **complete** when:
 - [Mobility plugins guide](https://github.com/shioyama/mobility/wiki/Plugins)
 - [ActionText overview](https://edgeguides.rubyonrails.org/action_text_overview.html)
 - [ActionText::Content API](https://api.rubyonrails.org/classes/ActionText/Content.html)
+- [TomDoc specification](https://github.com/mojombo/tomdoc)
+- [RDoc TomDoc parser](https://docs.ruby-lang.org/en/master/RDoc/TomDoc.html)
 
 ---
 
