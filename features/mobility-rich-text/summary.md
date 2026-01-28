@@ -76,6 +76,7 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 - Decision: Plugin architecture (not custom backend)
 - Decision: Use `ActionText::Content` (not `ActionText::RichText`)
 - Decision: TomDoc for code documentation (generated via rdoc)
+- Decision: RBS for type signatures
 
 ### In Progress
 - Phase 1 implementation planning
@@ -113,6 +114,11 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 **Rationale:** Human-readable in plain text, machine-parseable by RDoc, follows Ruby community conventions
 **Impact:** Consistent, high-quality API documentation generated via rdoc gem
 
+### Decision 5: RBS for Type Signatures
+**Decision:** Document all types using RBS (Ruby Signature) format
+**Rationale:** Ruby's official type signature language, enables static type checking, improves IDE support
+**Impact:** Better developer tooling, type-safe API, catches errors early
+
 ---
 
 ## Success Metrics
@@ -124,12 +130,15 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 - No performance regressions
 - All public API documented with TomDoc
 - RDoc generates complete documentation
+- RBS type signatures for all public API
+- `rbs validate` passes
 
 **Developer Experience:**
 - Simple configuration (`rich_text: true`)
 - Intuitive API matching ActionText patterns
 - Clear documentation and examples
 - Generated API documentation available
+- Type-aware IDE support via RBS
 
 ---
 

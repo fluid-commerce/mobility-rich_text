@@ -84,7 +84,22 @@
 - [ ] Document public attributes (`html`, `content`)
 - [ ] Verify `bundle exec rdoc lib/mobility/rich_text/wrapper.rb` generates correctly
 
-#### 1.1.4: Verify Tests Pass
+#### 1.1.4: Write RBS Type Signatures
+
+- [ ] Create `sig/mobility/rich_text/wrapper.rbs`
+  - [ ] Declare instance variables (`@html`, `@content`)
+  - [ ] Type `initialize` method
+  - [ ] Type `to_s` method
+  - [ ] Type `to_html` method
+  - [ ] Type `to_plain_text` method
+  - [ ] Type `blank?` method
+  - [ ] Type `present?` method
+  - [ ] Type `to_action_text_content` method
+  - [ ] Type `==` method with union types
+  - [ ] Type `attr_reader` for `content`
+- [ ] Verify `bundle exec rbs validate` passes
+
+#### 1.1.5: Verify Tests Pass
 
 - [ ] Run `bundle exec rake test TEST=test/mobility/rich_text/wrapper_test.rb`
 - [ ] All tests GREEN
@@ -99,6 +114,8 @@
 - [ ] Delegates unknown methods to ActionText::Content
 - [ ] All public methods documented with TomDoc
 - [ ] RDoc generates without errors
+- [ ] RBS type signatures complete
+- [ ] `rbs validate` passes
 
 ---
 
@@ -127,6 +144,8 @@
 - [ ] All wrapper tests passing
 - [ ] Wrapper class documented with TomDoc
 - [ ] RDoc generates successfully for wrapper
+- [ ] RBS type signatures complete for wrapper
+- [ ] `rbs validate` passes
 - [ ] Code review approved (if applicable)
 - [ ] Documentation updated (this file)
 - [ ] No linter errors
@@ -190,12 +209,22 @@
   - [ ] `normalize_value` - parameters, returns
 - [ ] Verify `bundle exec rdoc lib/mobility/rich_text/plugins/` generates correctly
 
-#### 2.1.4: Register Plugin
+#### 2.1.4: Write RBS Type Signatures
+
+- [ ] Create `sig/mobility/rich_text/plugins/rich_text.rbs`
+  - [ ] Type `RichText` module
+  - [ ] Type `BackendMethods` module
+  - [ ] Type `read` method
+  - [ ] Type `write` method
+  - [ ] Type `normalize_value` private method
+- [ ] Verify `bundle exec rbs validate` passes
+
+#### 2.1.5: Register Plugin
 
 - [ ] Add `Mobility::Plugins.register_plugin(:rich_text, RichText)` to entry point
 - [ ] Verify plugin appears in Mobility's registry
 
-#### 2.1.5: Verify Tests Pass
+#### 2.1.6: Verify Tests Pass
 
 - [ ] Run `bundle exec rake test TEST=test/mobility/rich_text/plugins/rich_text_test.rb`
 - [ ] All tests GREEN
@@ -209,6 +238,8 @@
 - [ ] All public methods documented with TomDoc
 - [ ] Internal methods marked with `Internal:` prefix
 - [ ] RDoc generates without errors
+- [ ] RBS type signatures complete
+- [ ] `rbs validate` passes
 
 ---
 
@@ -235,6 +266,8 @@
 - [ ] Plugin integrates with Mobility correctly
 - [ ] All code documented with TomDoc
 - [ ] RDoc generates successfully
+- [ ] RBS type signatures complete for plugin
+- [ ] `rbs validate` passes
 - [ ] Code review approved
 - [ ] Documentation updated
 
@@ -354,6 +387,8 @@
 - [ ] Attachment support verified
 - [ ] All public API documented with TomDoc
 - [ ] RDoc documentation generates successfully
+- [ ] All RBS type signatures complete
+- [ ] `rbs validate` passes
 - [ ] README documentation complete
 - [ ] Ready for release
 
@@ -369,6 +404,8 @@
 - [ ] All tests passing
 - [ ] All code documented with TomDoc
 - [ ] RDoc generates without errors
+- [ ] RBS type signatures complete
+- [ ] `rbs validate` passes
 - [ ] No linter errors
 
 **Overall Feature:**
@@ -376,6 +413,8 @@
 - [ ] All acceptance criteria from spec.md met
 - [ ] All public API documented with TomDoc
 - [ ] RDoc documentation generates successfully
+- [ ] All RBS type signatures complete
+- [ ] `rbs validate` passes
 - [ ] README documentation complete
 - [ ] Gem ready for release
 
@@ -407,6 +446,15 @@ bundle exec rdoc lib/mobility/rich_text/wrapper.rb
 
 # View generated documentation
 open doc/index.html
+
+# Validate RBS type signatures
+bundle exec rbs validate
+
+# List RBS signatures
+bundle exec rbs list
+
+# Check types with Steep (optional)
+bundle exec steep check
 ```
 
 ---

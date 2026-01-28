@@ -15,6 +15,7 @@
 4. [Implementation Approach](#implementation-approach)
 5. [Data Flow](#data-flow)
 6. [Documentation Standards](#documentation-standards)
+7. [Type Signatures](#type-signatures)
 
 ---
 
@@ -490,6 +491,104 @@ For each class/module:
 
 ---
 
+## Type Signatures
+
+### RBS Format
+
+All Ruby code must have type signatures documented using [RBS](https://github.com/ruby/rbs) (Ruby Signature) format. RBS is Ruby's official type signature language.
+
+### File Structure
+
+RBS signatures are stored in the `sig/` directory, mirroring the `lib/` structure:
+
+```
+sig/
+└── mobility/
+    └── rich_text/
+        ├── wrapper.rbs           # Wrapper class types
+        └── plugins/
+            └── rich_text.rbs     # Plugin types
+```
+
+### Type Validation
+
+```bash
+# Validate RBS syntax
+bundle exec rbs validate
+
+# Type check with Steep (optional)
+bundle exec steep check
+```
+
+### Example: Wrapper Class Signature
+
+```rbs
+# sig/mobility/rich_text/wrapper.rbs
+module Mobility
+  module RichText
+    class Wrapper
+      @html: String
+      @content: ActionText::Content
+
+      attr_reader content: ActionText::Content
+
+      def initialize: (String? html) -> void
+
+      def to_s: () -> String
+      def to_html: () -> String
+      def to_plain_text: () -> String
+      def blank?: () -> bool
+      def present?: () -> bool
+      def to_action_text_content: () -> ActionText::Content
+
+      def ==: (Wrapper | ActionText::Content | String | untyped other) -> bool
+    end
+  end
+end
+```
+
+### Example: Plugin Signature
+
+```rbs
+# sig/mobility/rich_text/plugins/rich_text.rbs
+module Mobility
+  module Plugins
+    module RichText
+      extend Mobility::Plugin
+
+      module BackendMethods
+        def read: (Symbol locale, **untyped options) -> Mobility::RichText::Wrapper?
+        def write: (Symbol locale, untyped value, **untyped options) -> void
+
+        private
+
+        def normalize_value: (untyped value) -> String?
+      end
+    end
+  end
+end
+```
+
+### RBS Conventions
+
+1. **Nullable Types:** Use `Type?` for types that can be nil
+2. **Union Types:** Use `Type1 | Type2` for multiple possible types
+3. **Instance Variables:** Declare with `@name: Type`
+4. **Block Parameters:** Use `{ (Type) -> ReturnType }` syntax
+5. **Keyword Arguments:** Use `name: Type` or `?name: Type` for optional
+
+### Type Signature Checklist
+
+For each class/module:
+- [ ] RBS file created in `sig/` directory
+- [ ] All public methods have signatures
+- [ ] All public attributes typed
+- [ ] Instance variables declared
+- [ ] `rbs validate` passes
+- [ ] Types match implementation
+
+---
+
 ## What NOT To Do
 
 **Don't create a custom backend**
@@ -540,6 +639,9 @@ For each class/module:
 - [TomDoc Specification](https://github.com/mojombo/tomdoc)
 - [RDoc TomDoc Parser](https://docs.ruby-lang.org/en/master/RDoc/TomDoc.html)
 - [Tom Preston-Werner's TomDoc Introduction](https://tom.preston-werner.com/2010/05/11/tomdoc-reasonable-ruby-documentation.html)
+- [RBS Repository](https://github.com/ruby/rbs)
+- [RBS Syntax Guide](https://github.com/ruby/rbs/blob/master/docs/syntax.md)
+- [Steep Type Checker](https://github.com/soutaro/steep)
 
 ---
 

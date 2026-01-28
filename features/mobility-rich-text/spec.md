@@ -146,6 +146,18 @@ All Ruby code must be documented using TomDoc markup format, with documentation 
 - AC-RT-007.5: Documentation generates successfully via `rdoc` command
 - AC-RT-007.6: Generated documentation is readable and complete
 
+### FR-RT-008: Type Signatures
+
+**Priority:** P1 (High)
+
+All Ruby code must have type signatures documented using RBS (Ruby Signature) format.
+
+**Acceptance Criteria:**
+- AC-RT-008.1: RBS signatures provided for all public classes in `sig/` directory
+- AC-RT-008.2: RBS signatures provided for all public methods
+- AC-RT-008.3: Type signatures validate successfully via `rbs validate`
+- AC-RT-008.4: Type signatures match implementation (verified via `steep check` or similar)
+
 ---
 
 ## API Specification
@@ -293,6 +305,8 @@ The mobility-rich_text gem is considered **complete** when:
 - [ ] Performance benchmarks acceptable
 - [ ] All public API documented with TomDoc
 - [ ] RDoc generates successfully
+- [ ] RBS type signatures for all public API
+- [ ] Type signatures validate via `rbs validate`
 
 #### Nice to Have (P2) - Future Enhancement
 
@@ -319,6 +333,8 @@ The mobility-rich_text gem is considered **complete** when:
 - [ActionText::Content API](https://api.rubyonrails.org/classes/ActionText/Content.html)
 - [TomDoc specification](https://github.com/mojombo/tomdoc)
 - [RDoc TomDoc parser](https://docs.ruby-lang.org/en/master/RDoc/TomDoc.html)
+- [RBS documentation](https://github.com/ruby/rbs)
+- [RBS syntax guide](https://github.com/ruby/rbs/blob/master/docs/syntax.md)
 
 ---
 
