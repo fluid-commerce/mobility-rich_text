@@ -32,9 +32,9 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 ## Four-Phase Implementation Plan
 
 ### Phase 1: Foundation
-**Focus:** Wrapper class for ActionText::Content
+**Focus:** Content class for ActionText::Content
 **Status:** Not started
-**Deliverables:** `Mobility::RichText::Wrapper` class with tests
+**Deliverables:** `Mobility::RichText::Content` class with tests
 
 ### Phase 2: Plugin Core
 **Focus:** Mobility plugin with read/write hooks
@@ -58,7 +58,7 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 ### Risk 1: ActionText API Changes
 **Probability:** Low
 **Impact:** Medium
-**Mitigation:** Wrapper class isolates us from direct ActionText API; only internal implementation needs updating if API changes.
+**Mitigation:** Content class isolates us from direct ActionText API; only internal implementation needs updating if API changes.
 
 ### Risk 2: Backend-Specific Edge Cases
 **Probability:** Low
@@ -82,7 +82,7 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 - Phase 1 implementation planning
 
 ### Upcoming
-- Wrapper class implementation (Phase 1)
+- Content class implementation (Phase 1)
 - Plugin implementation (Phase 2)
 - Backend integration tests (Phase 3)
 - Attachment tests (Phase 4)
@@ -104,8 +104,8 @@ Instead of storing translations in `ActionText::RichText` records (like `mobilit
 **Rationale:** `ActionText::Content` is a lightweight value object with no database dependencies
 **Impact:** No additional database tables required
 
-### Decision 3: Create Wrapper Class
-**Decision:** Create `Mobility::RichText::Wrapper` instead of returning raw `ActionText::Content`
+### Decision 3: Create Content Class
+**Decision:** Create `Mobility::RichText::Content` instead of returning raw `ActionText::Content`
 **Rationale:** Provides stable interface, allows future enhancements
 **Impact:** Clear API boundary, easier testing
 

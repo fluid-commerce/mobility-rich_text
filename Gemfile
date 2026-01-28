@@ -11,3 +11,11 @@ gem "rake", "~> 13.0"
 gem "minitest"
 
 gem "rubocop", "~> 1.21"
+
+# Testing dependencies
+gem "activerecord"
+gem "sqlite3"
+
+# Type checking
+gem "rbs"
+gem "steep"

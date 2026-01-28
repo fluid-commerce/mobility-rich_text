@@ -29,7 +29,7 @@ This gem creates a **Mobility Plugin**, not a custom backend. This is a critical
 ┌─────────────────────────────────────────────────────────────────┐
 │                     Application Code                             │
 │  article.content = "<p>Hello</p>"                               │
-│  article.content  # => Wrapper                                   │
+│  article.content  # => Content                                   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
@@ -68,7 +68,7 @@ lib/
 ├── mobility/
 │   └── rich_text/
 │       ├── version.rb              # Gem version
-│       ├── wrapper.rb              # ActionText::Content wrapper
+│       ├── content.rb              # ActionText::Content wrapper
 │       └── plugins/
 │           └── rich_text.rb        # Mobility plugin
 └── mobility/
@@ -77,7 +77,7 @@ lib/
 test/
 ├── mobility/
 │   └── rich_text/
-│       ├── wrapper_test.rb         # Wrapper unit tests
+│       ├── wrapper_test.rb         # Content unit tests
 │       └── plugins/
 │           └── rich_text_test.rb   # Plugin unit tests
 └── integration/
@@ -89,7 +89,7 @@ test/
 | File | Purpose |
 |------|---------|
 | `lib/mobility/rich_text.rb` | Entry point, requires dependencies, registers plugin |
-| `lib/mobility/rich_text/wrapper.rb` | Wraps ActionText::Content with consistent interface |
+| `lib/mobility/rich_text/content.rb` | Wraps ActionText::Content with consistent interface |
 | `lib/mobility/rich_text/plugins/rich_text.rb` | Mobility plugin with read/write hooks |
 
 ---
@@ -115,19 +115,19 @@ content = ActionText::Content.new("<p>Hello</p>")
 rich_text = ActionText::RichText.new(body: "<p>Hello</p>")
 ```
 
-### 2. Create Wrapper Class for Future Extensibility
+### 2. Create Content Class for Future Extensibility
 
-**Decision:** Create `Mobility::RichText::Wrapper` that delegates to `ActionText::Content`.
+**Decision:** Create `Mobility::RichText::Content` that delegates to `ActionText::Content`.
 
 **Rationale:**
 - ✅ Provides consistent interface across Rails versions
 - ✅ Allows future enhancements without changing API
 - ✅ Can add Mobility-specific methods (model/attribute context)
-- ✅ Clear type for checking (`is_a? Mobility::RichText::Wrapper`)
+- ✅ Clear type for checking (`is_a? Mobility::RichText::Content`)
 
 **Code Example:**
 ```ruby
-class Mobility::RichText::Wrapper
+class Mobility::RichText::Content
   delegate_missing_to :@content
 
   def initialize(html)
@@ -173,7 +173,7 @@ end
 - `String` - Pass through as-is
 - `ActionText::Content` - Extract with `.to_html`
 - `ActionText::RichText` - Extract with `.body.to_html`
-- `Mobility::RichText::Wrapper` - Extract with `.to_html`
+- `Mobility::RichText::Content` - Extract with `.to_html`
 - `nil` - Pass through as-is
 
 ---
@@ -184,20 +184,20 @@ end
 
 | Phase | Focus | Deliverables |
 |-------|-------|--------------|
-| **1: Foundation** | Wrapper class | `wrapper.rb` with tests |
+| **1: Foundation** | Content class | `content.rb` with tests |
 | **2: Plugin Core** | Plugin module | `plugins/rich_text.rb` with tests |
 | **3: Backend Testing** | Compatibility | Integration tests with multiple backends |
 | **4: Attachment Testing** | Full features | Attachment integration tests |
 
-### Phase 1: Foundation (Wrapper Class)
+### Phase 1: Foundation (Content Class)
 
-**Goal:** Create the Wrapper class that provides a consistent interface.
+**Goal:** Create the Content class that provides a consistent interface.
 
 ```ruby
-# lib/mobility/rich_text/wrapper.rb
+# lib/mobility/rich_text/content.rb
 module Mobility
   module RichText
-    class Wrapper
+    class Content
       delegate_missing_to :@content
 
       def initialize(html)
@@ -231,7 +231,7 @@ module Mobility
 
       def ==(other)
         case other
-        when Wrapper then to_html == other.to_html
+        when Content then to_html == other.to_html
         when ActionText::Content then to_html == other.to_html
         when String then to_html == other
         else false
@@ -266,7 +266,7 @@ module Mobility
           value = super
           return nil if value.nil?
 
-          Mobility::RichText::Wrapper.new(value)
+          Mobility::RichText::Content.new(value)
         end
 
         def write(locale, value, **options)
@@ -280,7 +280,7 @@ module Mobility
           case value
           when nil then nil
           when String then value
-          when Mobility::RichText::Wrapper then value.to_html
+          when Mobility::RichText::Content then value.to_html
           when ActionText::Content then value.to_html
           when ActionText::RichText then value.body.to_html
           else value.to_s
@@ -330,9 +330,9 @@ Test scenarios:
    └─> Returns HTML string: "<p>Hello</p>"
 
 3. RichText plugin intercepts
-   └─> Wraps with Wrapper.new(html_string)
+   └─> Wraps with Content.new(html_string)
 
-4. Application receives Wrapper
+4. Application receives Content
    └─> Can call .to_s, .to_plain_text, etc.
 ```
 
@@ -399,11 +399,11 @@ Use these prefixes to indicate method visibility:
 #
 # Examples
 #
-#   wrapper = Mobility::RichText::Wrapper.new("<p>Hello</p>")
+#   wrapper = Mobility::RichText::Content.new("<p>Hello</p>")
 #   wrapper.to_plain_text
 #   # => "Hello"
 #
-class Wrapper
+class Content
   # ...
 end
 ```
@@ -411,20 +411,20 @@ end
 ### Example: Method Documentation
 
 ```ruby
-# Public: Creates a new Wrapper instance.
+# Public: Creates a new Content instance.
 #
 # html - The String HTML content to wrap. Will be converted to String
 #        if another type is provided. Nil values become empty strings.
 #
 # Examples
 #
-#   Wrapper.new("<p>Hello</p>")
-#   # => #<Mobility::RichText::Wrapper ...>
+#   Content.new("<p>Hello</p>")
+#   # => #<Mobility::RichText::Content ...>
 #
-#   Wrapper.new(nil)
-#   # => #<Mobility::RichText::Wrapper @html="">
+#   Content.new(nil)
+#   # => #<Mobility::RichText::Content @html="">
 #
-# Returns a new Wrapper instance.
+# Returns a new Content instance.
 def initialize(html)
   @html = html.to_s
   @content = ActionText::Content.new(@html)
@@ -437,14 +437,14 @@ end
 # Public: Compares this wrapper with another object for equality.
 #
 # other - The Object to compare against. Can be:
-#         Wrapper - compares HTML content
+#         Content - compares HTML content
 #         ActionText::Content - compares HTML content
 #         String - compares against HTML string
 #
 # Examples
 #
-#   wrapper = Wrapper.new("<p>Hi</p>")
-#   wrapper == Wrapper.new("<p>Hi</p>")
+#   wrapper = Content.new("<p>Hi</p>")
+#   wrapper == Content.new("<p>Hi</p>")
 #   # => true
 #
 #   wrapper == "<p>Hi</p>"
@@ -461,7 +461,7 @@ end
 ```ruby
 # Internal: Normalizes various input types to an HTML string.
 #
-# value - The value to normalize. Accepts String, Wrapper,
+# value - The value to normalize. Accepts String, Content,
 #         ActionText::Content, ActionText::RichText, or nil.
 #
 # Returns the String HTML representation, or nil if value was nil.
@@ -505,7 +505,7 @@ RBS signatures are stored in the `sig/` directory, mirroring the `lib/` structur
 sig/
 └── mobility/
     └── rich_text/
-        ├── wrapper.rbs           # Wrapper class types
+        ├── content.rbs           # Content class types
         └── plugins/
             └── rich_text.rbs     # Plugin types
 ```
@@ -520,13 +520,13 @@ bundle exec rbs validate
 bundle exec steep check
 ```
 
-### Example: Wrapper Class Signature
+### Example: Content Class Signature
 
 ```rbs
-# sig/mobility/rich_text/wrapper.rbs
+# sig/mobility/rich_text/content.rbs
 module Mobility
   module RichText
-    class Wrapper
+    class Content
       @html: String
       @content: ActionText::Content
 
@@ -541,7 +541,7 @@ module Mobility
       def present?: () -> bool
       def to_action_text_content: () -> ActionText::Content
 
-      def ==: (Wrapper | ActionText::Content | String | untyped other) -> bool
+      def ==: (Content | ActionText::Content | String | untyped other) -> bool
     end
   end
 end
@@ -557,7 +557,7 @@ module Mobility
       extend Mobility::Plugin
 
       module BackendMethods
-        def read: (Symbol locale, **untyped options) -> Mobility::RichText::Wrapper?
+        def read: (Symbol locale, **untyped options) -> Mobility::RichText::Content?
         def write: (Symbol locale, untyped value, **untyped options) -> void
 
         private

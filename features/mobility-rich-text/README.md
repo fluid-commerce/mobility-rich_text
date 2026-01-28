@@ -65,7 +65,7 @@ features/mobility-rich-text/
 | Topic | Location |
 |-------|----------|
 | **Plugin configuration** | `translates :content, backend: :key_value, rich_text: true` |
-| **Wrapper class** | `lib/mobility/rich_text/wrapper.rb` |
+| **Content class** | `lib/mobility/rich_text/content.rb` |
 | **Plugin module** | `lib/mobility/rich_text/plugins/rich_text.rb` |
 | **Entry point** | `lib/mobility/rich_text.rb` |
 | **Unit tests** | `test/mobility/rich_text/` |

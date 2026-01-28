@@ -1,0 +1,20 @@
+# Minimal type stubs for ActionText
+#
+# These are simplified type declarations for ActionText classes used by
+# mobility-rich_text. They are not comprehensive - only the methods we
+# use are typed here.
+
+module ActionText
+  class Content
+    def initialize: (String content) -> void
+    def to_s: () -> String
+    def to_html: () -> String
+    def to_plain_text: () -> String
+    def blank?: () -> bool
+    def present?: () -> bool
+    def attachments: () -> untyped
+    def gallery_attachments: () -> untyped
+    def links: () -> Array[String]
+    def render_attachments: () ?{ (untyped) -> untyped } -> String
+  end
+end

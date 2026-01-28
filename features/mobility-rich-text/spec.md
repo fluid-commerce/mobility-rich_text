@@ -78,7 +78,7 @@ The plugin must register with Mobility's plugin system and be configurable per-a
 When reading a translated attribute, the plugin wraps the string value with ActionText::Content.
 
 **Acceptance Criteria:**
-- AC-RT-002.1: Returns `Mobility::RichText::Wrapper` instance wrapping `ActionText::Content`
+- AC-RT-002.1: Returns `Mobility::RichText::Content` instance wrapping `ActionText::Content`
 - AC-RT-002.2: Returns `nil` when backend returns `nil`
 - AC-RT-002.3: Returns empty wrapper when backend returns empty string
 - AC-RT-002.4: Handles HTML strings with proper encoding
@@ -93,7 +93,7 @@ When writing a translated attribute, the plugin converts ActionText objects to H
 - AC-RT-003.1: Accepts plain strings (passes through unchanged)
 - AC-RT-003.2: Accepts `ActionText::Content` objects, extracts HTML
 - AC-RT-003.3: Accepts `ActionText::RichText` objects, extracts HTML
-- AC-RT-003.4: Accepts `Mobility::RichText::Wrapper` objects, extracts HTML
+- AC-RT-003.4: Accepts `Mobility::RichText::Content` objects, extracts HTML
 - AC-RT-003.5: Handles `nil` values (passes through)
 
 ### FR-RT-004: Attachment Support
@@ -180,9 +180,9 @@ end
 ```ruby
 article = Article.find(1)
 
-# Returns Mobility::RichText::Wrapper (delegates to ActionText::Content)
+# Returns Mobility::RichText::Content (delegates to ActionText::Content)
 article.content
-# => #<Mobility::RichText::Wrapper ...>
+# => #<Mobility::RichText::Content ...>
 
 # Access ActionText methods
 article.content.to_s           # Renders HTML
@@ -218,12 +218,12 @@ article.save!
 <%= article.content %>
 ```
 
-### Wrapper Class Methods
+### Content Class Methods
 
-The `Mobility::RichText::Wrapper` class delegates to `ActionText::Content`:
+The `Mobility::RichText::Content` class delegates to `ActionText::Content`:
 
 ```ruby
-wrapper = Mobility::RichText::Wrapper.new("<p>Hello</p>")
+wrapper = Mobility::RichText::Content.new("<p>Hello</p>")
 
 # Delegation to ActionText::Content
 wrapper.to_s              # => "<p>Hello</p>"

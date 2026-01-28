@@ -20,25 +20,25 @@
 
 ---
 
-## Phase 1: Foundation (Wrapper Class)
+## Phase 1: Foundation (Content Class)
 
-**Goal:** Create the Wrapper class that provides a consistent interface around ActionText::Content.
+**Goal:** Create the Content class that provides a consistent interface around ActionText::Content.
 
 **Status:** Not Started
 
 ---
 
-### 1.1: Create Wrapper Class
+### 1.1: Create Content Class
 
 **Deliverables:**
-- [ ] `lib/mobility/rich_text/wrapper.rb`
-- [ ] `test/mobility/rich_text/wrapper_test.rb`
+- [ ] `lib/mobility/rich_text/content.rb`
+- [ ] `test/mobility/rich_text/content_test.rb`
 
 **Steps:**
 
 #### 1.1.1: Write Tests First (TDD)
 
-- [ ] Create `test/mobility/rich_text/wrapper_test.rb`
+- [ ] Create `test/mobility/rich_text/content_test.rb`
   - [ ] Test `#initialize` accepts HTML string
   - [ ] Test `#initialize` handles nil (converts to empty string)
   - [ ] Test `#initialize` handles empty string
@@ -49,14 +49,14 @@
   - [ ] Test `#blank?` returns false for content with text
   - [ ] Test `#present?` is inverse of `#blank?`
   - [ ] Test `#to_action_text_content` returns ActionText::Content
-  - [ ] Test `#==` with another Wrapper
+  - [ ] Test `#==` with another Content
   - [ ] Test `#==` with ActionText::Content
   - [ ] Test `#==` with String
   - [ ] Test delegation to ActionText::Content methods
 
-#### 1.1.2: Implement Wrapper Class
+#### 1.1.2: Implement Content Class
 
-- [ ] Create `lib/mobility/rich_text/wrapper.rb`
+- [ ] Create `lib/mobility/rich_text/content.rb`
   - [ ] Add `initialize(html)` method
   - [ ] Add `to_s` method
   - [ ] Add `to_html` method
@@ -67,10 +67,10 @@
   - [ ] Add `==` comparison method
   - [ ] Add `delegate_missing_to :@content`
 
-#### 1.1.3: Document Wrapper Class (TomDoc)
+#### 1.1.3: Document Content Class (TomDoc)
 
 - [ ] Add TomDoc class-level documentation
-  - [ ] Description of what Wrapper does
+  - [ ] Description of what Content does
   - [ ] Usage examples
 - [ ] Document all public methods with TomDoc
   - [ ] `initialize` - parameters, examples, returns
@@ -82,11 +82,11 @@
   - [ ] `to_action_text_content` - description, returns
   - [ ] `==` - parameters, examples, returns
 - [ ] Document public attributes (`html`, `content`)
-- [ ] Verify `bundle exec rdoc lib/mobility/rich_text/wrapper.rb` generates correctly
+- [ ] Verify `bundle exec rdoc lib/mobility/rich_text/content.rb` generates correctly
 
 #### 1.1.4: Write RBS Type Signatures
 
-- [ ] Create `sig/mobility/rich_text/wrapper.rbs`
+- [ ] Create `sig/mobility/rich_text/content.rbs`
   - [ ] Declare instance variables (`@html`, `@content`)
   - [ ] Type `initialize` method
   - [ ] Type `to_s` method
@@ -101,13 +101,13 @@
 
 #### 1.1.5: Verify Tests Pass
 
-- [ ] Run `bundle exec rake test TEST=test/mobility/rich_text/wrapper_test.rb`
+- [ ] Run `bundle exec rake test TEST=test/mobility/rich_text/content_test.rb`
 - [ ] All tests GREEN
 - [ ] Run `bundle exec rake rubocop`
 - [ ] No style violations
 
 **Acceptance Criteria:**
-- [ ] Wrapper class exists at correct path
+- [ ] Content class exists at correct path
 - [ ] All tests written first (TDD)
 - [ ] All tests passing
 - [ ] Handles nil and empty string gracefully
@@ -142,7 +142,7 @@
 
 - [ ] All Phase 1 tasks completed
 - [ ] All wrapper tests passing
-- [ ] Wrapper class documented with TomDoc
+- [ ] Content class documented with TomDoc
 - [ ] RDoc generates successfully for wrapper
 - [ ] RBS type signatures complete for wrapper
 - [ ] `rbs validate` passes
@@ -176,12 +176,12 @@
   - [ ] Test plugin registration with Mobility
   - [ ] Test plugin disabled by default
   - [ ] Test plugin enabled with `rich_text: true`
-  - [ ] Test read returns Wrapper when enabled
+  - [ ] Test read returns Content when enabled
   - [ ] Test read returns nil when value is nil
   - [ ] Test read returns raw string with `rich_text: false` option
   - [ ] Test write accepts String
   - [ ] Test write accepts ActionText::Content
-  - [ ] Test write accepts Wrapper
+  - [ ] Test write accepts Content
   - [ ] Test write accepts nil
   - [ ] Test write normalizes to HTML string
 
@@ -298,7 +298,7 @@
 **Steps:**
 
 - [ ] Create `test/integration/key_value_backend_test.rb`
-  - [ ] Test read returns Wrapper
+  - [ ] Test read returns Content
   - [ ] Test write stores HTML string
   - [ ] Test multiple locales work
   - [ ] Test string type translations
@@ -309,7 +309,7 @@
 **Steps:**
 
 - [ ] Create `test/integration/table_backend_test.rb`
-  - [ ] Test read returns Wrapper
+  - [ ] Test read returns Content
   - [ ] Test write stores HTML string
   - [ ] Test multiple locales work
 
@@ -318,7 +318,7 @@
 **Steps:**
 
 - [ ] Create `test/integration/json_backend_test.rb` (if applicable)
-  - [ ] Test read returns Wrapper
+  - [ ] Test read returns Content
   - [ ] Test write stores HTML string
   - [ ] Test multiple locales work
 
@@ -327,7 +327,7 @@
 **Steps:**
 
 - [ ] Create `test/integration/hstore_backend_test.rb` (if PostgreSQL available)
-  - [ ] Test read returns Wrapper
+  - [ ] Test read returns Content
   - [ ] Test write stores HTML string
 
 ### 3.6: Phase 3 Completion Checklist
@@ -427,7 +427,7 @@
 bundle exec rake test
 
 # Run specific test file
-bundle exec rake test TEST=test/mobility/rich_text/wrapper_test.rb
+bundle exec rake test TEST=test/mobility/rich_text/content_test.rb
 
 # Run linter
 bundle exec rake rubocop
@@ -442,7 +442,7 @@ bundle exec rdoc lib/
 bundle exec rdoc --format=darkfish lib/
 
 # Generate documentation for specific file
-bundle exec rdoc lib/mobility/rich_text/wrapper.rb
+bundle exec rdoc lib/mobility/rich_text/content.rb
 
 # View generated documentation
 open doc/index.html

@@ -1,0 +1,49 @@
+# Type signatures for Mobility::RichText::Content
+#
+# Wraps an HTML string with ActionText::Content functionality, providing
+# a consistent interface for rich text content in translated attributes.
+
+module Mobility
+  module RichText
+    class Content
+      # Instance variables
+      @html: String
+      @content: ActionText::Content
+
+      # Returns the underlying ActionText::Content instance
+      attr_reader content: ActionText::Content
+
+      # Creates a new Content instance
+      #
+      # Accepts any value that responds to #to_s. Nil values become empty strings.
+      def initialize: (untyped html) -> void
+
+      # Returns the rendered HTML content as a String
+      #
+      # In a Rails environment, renders attachments. In standalone contexts,
+      # falls back to to_html.
+      def to_s: () -> String
+
+      # Returns the raw HTML content as a String
+      def to_html: () -> String
+
+      # Returns the content with HTML tags stripped
+      def to_plain_text: () -> String
+
+      # Checks if the content is blank
+      def blank?: () -> bool
+
+      # Checks if the content is present (not blank)
+      def present?: () -> bool
+
+      # Returns the underlying ActionText::Content instance
+      def to_action_text_content: () -> ActionText::Content
+
+      # Compares this wrapper with another object for equality
+      #
+      # Accepts Content, ActionText::Content, String, or any other object.
+      # Returns true for matching Content, ActionText::Content, or String values.
+      def ==: (Content | ActionText::Content | String | untyped other) -> bool
+    end
+  end
+end

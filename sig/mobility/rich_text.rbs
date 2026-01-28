@@ -1,6 +1,15 @@
+# Type signatures for Mobility::RichText module
+#
+# This module provides a Mobility plugin that wraps translated string values
+# with ActionText::Content functionality.
+
 module Mobility
   module RichText
+    # The current version of the mobility-rich_text gem
     VERSION: String
-    # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+    # Base error class for all mobility-rich_text errors
+    class Error < StandardError
+    end
   end
 end

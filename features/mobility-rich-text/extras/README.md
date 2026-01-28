@@ -31,7 +31,7 @@ Use descriptive names that explain the content:
 - `actiontext-internals-research.md` - Research on how ActionText works
 - `backend-compatibility-matrix.md` - Test results for all backends
 - `migration-from-mobility-actiontext.md` - Guide for switching gems
-- `decisions-wrapper-class.md` - Why we created the Wrapper class
+- `decisions-wrapper-class.md` - Why we created the Content class
 
 ### What NOT to Put Here
 
