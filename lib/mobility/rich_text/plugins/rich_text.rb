@@ -42,12 +42,18 @@ module Mobility
       # Plugin is disabled by default
       default false
 
+      # Ensure backend is set up before this plugin
+      requires :backend, include: :before
+
       # Internal: Hook called when the plugin is included in a backend class.
       #
       # Includes BackendMethods in the backend class when rich_text option
       # is enabled for the attribute.
-      included_hook do |klass|
-        klass.include(BackendMethods) if options[:rich_text]
+      #
+      # _attributes - The Mobility::Attributes class (unused).
+      # backend_class - The backend class to include methods into.
+      included_hook do |_attributes, backend_class|
+        backend_class.include(BackendMethods) if options[:rich_text]
       end
 
       # Public: Methods mixed into backend classes when rich_text is enabled.
