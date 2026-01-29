@@ -1,5 +1,7 @@
 # mobility-rich_text Feature
 
+**Status:** Complete (71 tests, 124 assertions)
+
 A Mobility plugin that wraps string values from any backend with `ActionText::Content`, enabling rich text editing for translated content without separate ActionText storage.
 
 ---
