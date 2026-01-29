@@ -1,0 +1,16 @@
+# Minimal type stubs for Mobility
+#
+# These are simplified type declarations for Mobility classes used by
+# mobility-rich_text. They are not comprehensive - only the interfaces
+# we use are typed here.
+
+module Mobility
+  module Plugin
+    def self.extended: (Module base) -> void
+  end
+
+  module Plugins
+    def self.register_plugin: (Symbol name, Module plugin) -> void
+    def self.load_plugin: (Symbol name) -> Module
+  end
+end

@@ -1,0 +1,35 @@
+# Type signatures for Mobility::Plugins::RichText
+#
+# A Mobility plugin that wraps translated string values with
+# ActionText::Content, providing rich text editing capabilities.
+
+module Mobility
+  module Plugins
+    module RichText
+      extend Mobility::Plugin
+
+      # Plugin is disabled by default
+      DEFAULT: bool
+
+      # Methods mixed into backend classes when rich_text is enabled
+      module BackendMethods
+        # Reads the translated value and wraps it with Content
+        #
+        # Returns Mobility::RichText::Content or nil if value is nil.
+        # Returns raw String if rich_text: false option is passed.
+        def read: (Symbol locale, **untyped options) -> (Mobility::RichText::Content | String | nil)
+
+        # Writes a value after normalizing it to an HTML string
+        def write: (Symbol locale, untyped value, **untyped) -> void
+
+        private
+
+        # Normalizes various input types to an HTML string
+        def normalize_value: (untyped value) -> String?
+
+        # Returns ActionText::RichText class if defined
+        def action_text_rich_text_class: () -> Class?
+      end
+    end
+  end
+end

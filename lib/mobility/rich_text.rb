@@ -2,6 +2,7 @@
 
 require_relative "rich_text/version"
 require_relative "rich_text/content"
+require_relative "rich_text/plugins/rich_text"
 
 module Mobility
   # Public: A Mobility plugin that wraps translated string values with
